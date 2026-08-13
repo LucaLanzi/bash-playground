@@ -58,14 +58,24 @@ mv - move a file
 ### history - prints the command line history
 - super useful to see what you ran prior, lets you check all the previous input commands
 
+### pipes - inputs the argument to the right of the pipe to the output of the shell argument to its left
+<pre><code>
+echo helloworld >> file.txt
+cat file.txt | grep -o 'h....'
+hello
+</pre></code>
+
 !!! note
     hidden files must have their name prepended with a `.`
     they can be seen by using `ls -a`
+
+
 
 ## grep
 ### Command line utility for searching text that matches an expression
 
 - Arguments can be chained after calling grep.
+For example `grep -io` is the same as `grep -i -o`
 
 - -o only print the line that matches
 <pre><code>
