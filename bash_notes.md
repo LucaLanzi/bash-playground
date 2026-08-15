@@ -1,7 +1,28 @@
 # Bash Playground
+By Luca Lanzillotta
+- Using [this](https://www.youtube.com/playlist?list=PL-my9REMIFtGgiQAXqKPJ5UrLdSkxcLBT) guide to learn bash
+- Linux [manual](https://man7.org/linux/man-pages/man1/type.1p.html) page
 
 # Common Commands
-tab complete - hitting tab completes your search, only as accurate as the info you give it
+- Below is an accumulation of programs within bash that are invoked by their respective commands. 
+This serves as a way to document my process in learning how to navigate bash and feeling more comfortable in the shell.
+
+### tab complete 
+- hitting tab completes your search, only as accurate as the info you give it
+
+### help
+- help gives the manual for the desired program that is natively built into bash.
+<pre><code>
+help echo
+</pre></code>
+
+### man pages
+- man invokes the programs manual. It is opened using less, and can be navigated using less commands
+<pre><code>
+#!/bin/bash
+man git
+*prints the git manual*
+</pre></code>
 
 ### echo - prints to the terminal screen or standard output
 
@@ -23,9 +44,6 @@ echo hello again >> myfile.txt
 cat myfile.txt
 hello
 hello again
-
-
-
 </pre></code>
 
 ### cd - change directory
@@ -69,10 +87,7 @@ hello
     hidden files must have their name prepended with a `.`
     they can be seen by using `ls -a`
 
-
-
-## grep
-### Command line utility for searching text that matches an expression
+### grep - Command line utility for searching text that matches an expression
 
 - Arguments can be chained after calling grep.
 For example `grep -io` is the same as `grep -i -o`
@@ -148,3 +163,90 @@ grep -B1 b file.txt
 grep -C1 b file.txt
 # Searches for b in file.txt and prints 1 line before and after the found line. C stands for context, so it gives you the lines above and below.
 </pre></code>
+
+### less - Display the contents of a file in a terminal
+<code><pre>
+less /usr/share/dict/words
+</code></pre>
+
+- prints contents of the file
+- Navigate up/down with arrow keys, or use j and k
+- if you hit `:h' the help window will open
+
+### more - Display the contents of a file in a terminal (less is better)
+- same as less but more only allows forward scrolling
+<pre><code>
+more /usr/share/dict/words
+</pre></code>
+
+### type - Tells you how a shell interprets a specific command name
+- Type indicates how each argument would be interpreted if used as a command name
+- Tells you if commands are aliased to other things if they are shell functions, and more.
+<pre><code>
+#!/bin/bash
+type -a rm
+rm is /bin/rm
+</pre></code>
+
+### compgen - lists all the possible completion matches for strings of text
+<pre><code>
+!#/bin/bash
+compgen -b #lists built in shell commands
+</pre></code>
+
+### file - identifies what type of file something is
+<pre><code>
+#!/bin/bash
+echo hello world >> helloworld.txt
+file hello_world.txt
+helloworld.txt: ASCII text
+</pre></code>
+
+or a little more freaky...
+
+<pre><code>
+file /bin/rm
+/bin/rm: Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64e:Mach-O 64-bit executable arm64e]
+/bin/rm (for architecture x86_64):      Mach-O 64-bit executable x86_64
+/bin/rm (for architecture arm64e):      Mach-O 64-bit executable arm64e
+</pre></code>
+
+### tr - translate a character into another character
+- useful for changing how data is displayed. For example, in this example colons have been turned into newlines
+<pre><code>
+echo $PATH
+/Users/luquito/.rd/bin:/Users/luquito/.nvm/versions/node/v20.20.2/bin:/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.14/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/Users/luquito/.vscode-server/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli:/Users/luquito/.rd/bin:/Users/luquito/.nvm/versions/node/v20.20.2/bin:/opt/homebrew/Caskroom/miniconda/base/condabin
+
+echo $PATH | tf : '\n' #you must quote things with special characters to escape it btw
+
+/Users/luquito/.rd/bin
+/Users/luquito/.nvm/versions/node/v20.20.2/bin
+/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand
+/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli
+/opt/homebrew/bin
+/opt/homebrew/sbin
+/Library/Frameworks/Python.framework/Versions/3.14/bin
+/usr/local/bin
+/System/Cryptexes/App/usr/bin
+/usr/bin
+/bin
+/usr/sbin
+/sbin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin
+/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+/pkg/env/global/bin
+/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand
+/Users/luquito/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli
+/Users/luquito/.vscode-server/cli/servers/Stable-a5b500951314efd502d07465bd138dfbd714a960/server/bin/remote-cli
+/Users/luquito/.rd/bin
+/Users/luquito/.nvm/versions/node/v20.20.2/bin
+/opt/homebrew/Caskroom/miniconda/base/condabin
+</pre></code>
+
+# Scripting and Variables
+- Bash uses characters to expand variable contents
+### PATH - variable
+- Holds all the paths that bash will check to run an executable
+
+### Ended on chapter 2 section 2
